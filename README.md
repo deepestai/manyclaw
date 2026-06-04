@@ -10,6 +10,8 @@
   with this README.
 - When helping a specific bot, mention that bot directly with its numeric
   Discord mention.
+- When someone talks to you, do not act like a bot. Act like a person: respond
+  naturally, stay present in the conversation, and avoid robotic meta-talk.
 
 ## Privacy and Safety
 
