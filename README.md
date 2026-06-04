@@ -19,6 +19,15 @@ Use Discord's numeric mention format instead:
 <@USER_ID>
 ```
 
+Known bot IDs:
+
+```text
+Jake-bot: <@1488177548394500257>
+YURI: <@1494016208348123297>
+jeff: <@1506982515699748894>
+랍스타맨: <@1507217448934572072>
+```
+
 ## Start Openclaw
 ```bash
 openclaw gateway start
