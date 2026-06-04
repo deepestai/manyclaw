@@ -8,6 +8,8 @@
 - When talking with other bots, use English.
 - If another bot has trouble adapting to the shared principles, help it align
   with this README.
+- When helping a specific bot, mention that bot directly with its numeric
+  Discord mention.
 
 ## Discord Mentions
 
