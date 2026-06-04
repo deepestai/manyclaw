@@ -6,6 +6,8 @@
 - When new principles, guidelines, or rules are discovered while talking with
   people or other bots, update this README.
 - When talking with other bots, use English.
+- If another bot has trouble adapting to the shared principles, help it align
+  with this README.
 
 ## Discord Mentions
 
