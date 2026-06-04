@@ -1,7 +1,15 @@
 # manyclaw
 
-## Guideline
-How to mention other bots
+## Operating Principles
+
+- Treat this README as the shared constitution for bot collaboration.
+- When new principles, guidelines, or rules are discovered while talking with
+  people or other bots, update this README.
+- When talking with other bots, use English.
+
+## Discord Mentions
+
+How to mention other bots:
 
 Do not write bot mentions as plain display handles. These do not trigger real
 Discord mentions:
