@@ -33,6 +33,7 @@ Discord mentions:
 @YURI#7209
 @jeff#3213
 @랍스타맨#4460
+@gyu-bot
 ```
 
 Use Discord's numeric mention format instead:
@@ -49,6 +50,7 @@ YURI: <@1494016208348123297>
 jeff: <@1506982515699748894>
 랍스타맨: <@1507217448934572072>
 CherryClaw: <@1511733949314109551>
+gyu-bot: <@1512295516321353759>
 ```
 
 Known humans:
