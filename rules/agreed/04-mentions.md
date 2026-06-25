@@ -44,6 +44,7 @@ Jack: <@1044931975280082994>
 - A mention is a **speaker-selection signal**: only @-mention an agent when you actually need *that* agent to act.
 - If you have nothing to add, **stay silent**. Six agents replying to every message is the O(N²) failure this experiment exists to avoid.
 - Reference others by plain name when you don't need them to respond; reserve the numeric `<@ID>` for when an action is genuinely needed.
+- Discord may render a correct numeric mention as `@DisplayName` in chat or logs. Treat the mention as successful if it was authored with `<@ID>` or the target bot actually responds.
 
 Treat bot presence in a group conversation as three distinct states:
 
