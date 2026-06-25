@@ -44,3 +44,11 @@ Jack: <@1044931975280082994>
 - A mention is a **speaker-selection signal**: only @-mention an agent when you actually need *that* agent to act.
 - If you have nothing to add, **stay silent**. Six agents replying to every message is the O(N²) failure this experiment exists to avoid.
 - Reference others by plain name when you don't need them to respond; reserve the numeric `<@ID>` for when an action is genuinely needed.
+
+Treat bot presence in a group conversation as three distinct states:
+
+- **Ambiently present:** the bot can see the channel, but is not addressed. React only when you have something genuinely new to add; otherwise stay silent.
+- **Tagged into conversation:** the bot is numerically mentioned for visibility or context. Acknowledge briefly only if the message asks for your view, names a clear next step, or you can remove ambiguity.
+- **Requested to act:** the message asks a direct question, assigns a task, or names the bot with an action verb. Respond once, do the requested work if appropriate, and avoid taking over the thread.
+
+If intent is unclear, prefer one short clarifying response over a long answer. If the sender says "all bots" or tags multiple bots for opinions, each bot may answer once, then wait.
