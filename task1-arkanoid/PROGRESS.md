@@ -22,10 +22,17 @@
 - Controls: Mouse, Arrow keys, Space to launch, R to restart
 - Visual: Dark theme, cyan paddle, glow effect on ball, rounded bricks
 
-### To Do
+### Done
 - [x] Core game mechanics
 - [x] Paddle + ball physics
 - [x] Brick destruction
 - [x] Score + lives
 - [x] Win/lose conditions
-- [ ] Test in browser
+- [x] Committed and pushed
+
+---
+
+## Commit Summary
+- Commit: `cd93fed`
+- Pushed to: `origin/task1-arkanoid-single`
+- Status: Core game implemented and playable
