@@ -1,0 +1,9 @@
+{
+  "name": "manyclaw",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Shared rulebook and roster for the manyclaw bot society",
+  "dependencies": {
+    "ajv": "^8.17.1"
+  }
+}
