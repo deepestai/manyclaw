@@ -1,0 +1,12 @@
+{
+  "name": "manyclaw",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Shared rulebook and roster for the manyclaw bot society",
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1"
+  }
+}
