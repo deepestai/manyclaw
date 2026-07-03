@@ -1,55 +1,66 @@
-# Plan — Arkanoid Multi-Agent
+# Arkanoid Multi-Agent Plan
 
 ## Platform
 - **HTML5 Canvas + Vanilla JavaScript**
 - 이유: 별도 빌드 없이 브라우저 실행, 디버깅 용이, 세 에이전트 모두 친숙
+- 파일: `index.html` + `game.js` + `bricks.js` + `renderer.js`
 
 ## Slices
 
-| Slice | Owner | Responsibility |
-|-------|-------|----------------|
-| A. 게임 코어 | jake-bot | Ball 물리, Paddle 조작, Collision 감지, 게임 루프 |
-| B. 렌더링/UI | YURI | Brick 그리드, Score/Lives HUD, 오버레이(승리/패배 화면) |
-| C. 게임 상태 | LobsterMan | Lives 관리, 레벨 전환, 게임 초기화/재시작 로직 |
+| Slice | Owner | Files | Responsibility |
+|-------|-------|-------|----------------|
+| A. 게임 코어 | jake-bot | `game.js` | Ball 물리, Paddle 조작, Collision 계산, 게임 루프 |
+| B. 레벨 & 블록 | LobsterMan | `bricks.js` | `bricks` 생성/초기화/클리어, 레벨 데이터, 승리 판정 |
+| C. 렌더링 | YURI | `renderer.js` | Canvas 그리기 (read-only), HUD, Start/Game Over 오버레이 |
 
 ## Interface Contracts
 
-모든 슬라이스는 `gameState` 객체를 공유한다. 각 슬라이스는 자기 영역만 수정한다.
-
-### gameState 구조
+`gameState` 객체 공유. 각 슬라이스는 자기 영역만 수정.
 
 ```js
 gameState = {
-  // --- Slice A (jake-bot): balls, paddle, bricks ---
-  balls: [...],      // Ball 객체 배열 (위치/속도 벡터 공유, 모두 접근)
+  // --- Slice A (jake-bot) ---
+  balls: [...],      // Ball 객체 배열
   paddle: {...},     // Paddle 객체
-  bricks: [...],     // Brick 배열 — 읽기 전용, LobsterMan이 생성/초기화/클리어 판정
 
-  // --- Slice B (YURI): rendering (read-only) ---
-  // → gameState를 읽기 전용으로 참조하여 렌더링
-
-  // --- Slice C (LobsterMan): score, lives, phase ---
+  // --- Slice B (LobsterMan) ---
+  bricks: [...],     // Brick 배열 — LobsterMan이 생성/초기화/클리어 판정
   score: 0,          // 점수
   lives: 3,          // 목숨
   phase: 'start',    // 'start' | 'playing' | 'won' | 'lost'
+
+  // --- Slice C (YURI): read-only ---
 }
 ```
 
-### 충돌 및 책임 구분
-
-- **bricks** 생성/초기화/클리어 판정 → **LobsterMan**
-- ball-paddle-brick collision 계산 → **Jake-bot**
+### 충돌 책임
+- brick 생성/초기화/클리어 판정 → **LobsterMan**
+- ball-paddle-brick collision 계산 → **jake-bot**
 - 렌더링 → **YURI** (gameState 읽기 전용)
 
-## Who's Next
+### Collision Flow
+1. jake-bot이 ball-brick 충돌 계산
+2. jake-bot이 `bricks.remove(index)` 호출로brick 제거 신호
+3. LobsterMan이 `score`, `lives`, `phase` 업데이트
+4. YURI가 매 프레임 gameState 읽기 전용으로 렌더링
 
-- **현재:** Phase 0 합의 완료, PLAN.md 작성 (LobsterMan)
-- **다음:** Jake-bot이 슬라이스 A 구현 시작
+## Files
+
+```
+task1-arkanoid/
+├── index.html      # canvas element + basic CSS
+├── game.js         # jake-bot — core loop, input, collision
+├── bricks.js       # LobsterMan — level data, brick management
+├── renderer.js     # YURI — all drawing
+├── INSTRUCTIONS.md
+├── PLAN.md
+└── PROGRESS.md
+```
 
 ## Status
 
 | Slice | Status | Who's Next |
 |-------|--------|------------|
-| A. 게임 코어 | pending | jake-bot |
-| B. 렌더링/UI | pending | YURI |
-| C. 게임 상태 | pending | LobsterMan |
+| A. 게임 코어 | TODO | jake-bot |
+| B. 레벨 & 블록 | TODO | LobsterMan |
+| C. 렌더링 | TODO | YURI |
