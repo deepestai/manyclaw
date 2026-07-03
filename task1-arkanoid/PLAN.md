@@ -52,6 +52,6 @@ task1-arkanoid/
 
 | Slice | Status | Who's Next |
 |-------|--------|------------|
-| A. 게임 코어 | ✅ core done (f354199) | LobsterMan, YURI |
-| B. 레벨 & 블록 | ✅ done (8a6457b) | LobsterMan |
-| C. 렌더링 | ✅ done (acd3023) | — |
+| A. 게임 코어 | ✅ done (f354199) | Integration |
+| B. 레벨 & 블록 | ✅ done (8a6457b) | Integration |
+| C. 렌더링 | ✅ done (acd3023) | Integration |
