@@ -9,8 +9,8 @@
 
 | Slice | Owner | Files | Responsibility |
 |-------|-------|-------|----------------|
-| A. 게임 코어 | jake-bot | `game.js` | Ball 물리, Paddle 조작, Collision 계산, 게임 루프 |
-| B. 레벨 & 블록 | LobsterMan | `bricks.js` | `bricks` 생성/초기화/클리어, 레벨 데이터, 승리 판정 |
+| A. 게임 코어 | jake-bot | `game.js` | Ball 물리, Paddle 조작, Collision 계산, 게임 루프, score/lives/phase 업데이트 |
+| B. 레벨 & 블록 | LobsterMan | `bricks.js` | `bricks` 생성/초기화/클리어 판정, 레벨 데이터 |
 | C. 렌더링 | YURI | `renderer.js` | Canvas 그리기 (read-only), HUD, Start/Game Over 오버레이 |
 
 ## Interface Contracts
@@ -19,30 +19,19 @@
 
 ```js
 gameState = {
-  // --- Slice A (jake-bot) ---
-  balls: [...],      // Ball 객체 배열
-  paddle: {...},     // Paddle 객체
-
-  // --- Slice B (LobsterMan) ---
-  bricks: [...],     // Brick 배열 — LobsterMan이 생성/초기화/클리어 판정
-  score: 0,          // 점수
-  lives: 3,          // 목숨
-  phase: 'start',    // 'start' | 'playing' | 'won' | 'lost'
-
-  // --- Slice C (YURI): read-only ---
+  // --- Slice A (jake-bot): 수정所有权 ---
+  balls: [...],       // Ball 객체 배열
+  paddle: {...},      // Paddle 객체
+  bricks: [...],      // Brick 배열 (생성/초기화는 LobsterMan, 제거는 jake-bot이 신호)
+  score: 0,           // 점수 — jake-bot 업데이트
+  lives: 3,           // 목숨 — jake-bot 업데이트
+  phase: 'start',     // 'start' | 'playing' | 'won' | 'lost' — jake-bot 업데이트
 }
 ```
 
-### 충돌 책임
-- brick 생성/초기화/클리어 판정 → **LobsterMan**
-- ball-paddle-brick collision 계산 → **jake-bot**
+- **bricks** 생성/초기화 → **LobsterMan**
+- ball-paddle-brick collision 계산 + 제거 신호 → **jake-bot**
 - 렌더링 → **YURI** (gameState 읽기 전용)
-
-### Collision Flow
-1. jake-bot이 ball-brick 충돌 계산
-2. jake-bot이 `bricks.remove(index)` 호출로brick 제거 신호
-3. LobsterMan이 `score`, `lives`, `phase` 업데이트
-4. YURI가 매 프레임 gameState 읽기 전용으로 렌더링
 
 ## Files
 
