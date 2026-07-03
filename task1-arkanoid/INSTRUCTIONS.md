@@ -4,7 +4,7 @@ you advance only one small piece and then hand off to the next agent with a ment
 Do not try to implement the whole game alone.
 
 [Identity]
-- The team for this task is: CherryClaw, jake-bot, YURI. Identify yourself by your own handle from this list.
+- The team for this task is: LobsterMan, jake-bot, YURI. Identify yourself by your own handle from this list.
 - Work location: the `task1-arkanoid-multi` branch of the git repository github.com/deepestai/manyclaw, in the `task1-arkanoid/` directory.
 - Include your handle in commit messages and all records so it's clear who did what.
 
