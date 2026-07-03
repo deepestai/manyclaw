@@ -19,19 +19,21 @@
 
 ```js
 gameState = {
-  // --- Slice A (jake-bot): 수정所有权 ---
-  balls: [...],       // Ball 객체 배열
-  paddle: {...},      // Paddle 객체
-  bricks: [...],      // Brick 배열 (생성/초기화는 LobsterMan, 제거는 jake-bot이 신호)
+  // --- Slice A (jake-bot) ---
+  balls: [...],       // Ball 객체 배열 — jake-bot 관리
+  paddle: {...},      // Paddle 객체 — jake-bot 관리
   score: 0,           // 점수 — jake-bot 업데이트
   lives: 3,           // 목숨 — jake-bot 업데이트
   phase: 'start',     // 'start' | 'playing' | 'won' | 'lost' — jake-bot 업데이트
+
+  // --- bricks (shared) ---
+  bricks: [...],      // LobsterMan: 생성/초기화/클리어 판정; jake-bot: collision 시 brick.alive=false 반영; YURI: read-only
 }
 ```
 
-- **bricks** 생성/초기화 → **LobsterMan**
-- ball-paddle-brick collision 계산 + 제거 신호 → **jake-bot**
-- 렌더링 → **YURI** (gameState 읽기 전용)
+- **bricks** 데이터 구조 + 생성/초기화/클리어 판정 → **LobsterMan**
+- collision 계산 + 충돌 brick `alive=false` 반영 → **jake-bot**
+- bricks read-only 렌더링 → **YURI**
 
 ## Files
 
