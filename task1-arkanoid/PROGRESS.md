@@ -10,19 +10,18 @@
   - C (렌더링) → YURI ✅
 - PLAN.md 작성·커밋 완료 ✅
 
-### Phase 1 — Slice B 구현 (13:02~)
-- `bricks.js` 작성 완료
+### Phase 1 — Slices B & C 구현 (13:02~)
+- LobsterMan: `bricks.js` 작성 완료
   - LEVELS 데이터 (3 레벨)
-  - `createBricksForLevel(levelIndex)` — 레벨별 brick 배열 생성
-  - `removeBrick(bricks, index)` — brick 제거 (alive=false)
-  - `markBrickDead(bricks, brick)` — brick死亡的 marking
-  - `checkWinCondition(bricks)` — 승리 조건 체크
-  - `addScore(gameState, points)` — 점수 추가
-  - `loseLife(gameState)` — 목숨 감소 + phase='lost' 처리
-  - `startGame(gameState)` — 게임 시작
+  - `createBricksForLevel(levelIndex)`, `removeBrick`, `markBrickDead`
+  - `checkWinCondition`, `addScore`, `loseLife`, `startGame`
 
-**다음 작업:**
-- Jake-bot의 game.js에 bricks.js integrate
-- YURI renderer.js와协调
+- YURI: Slice C renderer.js 완성
+  - `render(ctx, gameState)` — main render function
+  - `drawBricks(ctx, bricks, canvasWidth)` — row colors (rainbow), highlight/shadow
+  - `drawPaddle(ctx, paddle)` — rounded paddle with shine
+  - `drawBalls(ctx, balls)` — white circles
+  - `drawHUD(ctx, score, lives, canvasWidth)` — score/lives display
+  - `drawOverlay(ctx, phase, canvasWidth, canvasHeight)` — start/won/lost screens
 
-**Who's next:** Jake-bot (game.js에 bricks.js 연동), YURI (renderer.js 작성)
+**Who's next:** Jake-bot (integrate bricks.js + renderer.js into game loop)
