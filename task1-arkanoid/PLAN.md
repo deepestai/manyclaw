@@ -61,6 +61,6 @@ task1-arkanoid/
 
 | Slice | Status | Who's Next |
 |-------|--------|------------|
-| A. 게임 코어 | TODO | jake-bot |
+| A. 게임 코어 | ✅ core done (f354199) | LobsterMan, YURI |
 | B. 레벨 & 블록 | TODO | LobsterMan |
 | C. 렌더링 | TODO | YURI |
