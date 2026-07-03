@@ -1,5 +1,5 @@
 // bricks.js — Slice B: LobsterMan
-// Brick 생성/관리, 레벨 데이터, 승리 판정, score/lives/phase 업데이트
+// Brick 생성/관리, 레벨 데이터, 승리 판정
 
 import { createBrick } from './game.js';
 
@@ -53,35 +53,6 @@ export function markBrickDead(bricks, brick) {
 // Check if all bricks are dead (win condition)
 export function checkWinCondition(bricks) {
   return bricks.every(brick => !brick.alive);
-}
-
-// --- Score / Lives / Phase Updates (owned by LobsterMan) ---
-
-// Add points when a brick is destroyed
-export function addScore(gameState, points = 10) {
-  gameState.score += points;
-}
-
-// Lose a life when ball is lost
-export function loseLife(gameState) {
-  gameState.lives -= 1;
-  if (gameState.lives <= 0) {
-    gameState.phase = 'lost';
-  }
-}
-
-// Advance to next level
-export function nextLevel(gameState) {
-  gameState.phase = 'playing';
-  // Reset ball position for new level
-  return gameState; // caller should call createBricksForLevel to get new bricks
-}
-
-// Start the game
-export function startGame(gameState) {
-  gameState.phase = 'playing';
-  gameState.score = 0;
-  gameState.lives = 3;
 }
 
 // Check if player won the game (all levels cleared)
