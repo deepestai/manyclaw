@@ -54,4 +54,4 @@ task1-arkanoid/
 |-------|--------|------------|
 | A. 게임 코어 | ✅ core done (f354199) | LobsterMan, YURI |
 | B. 레벨 & 블록 | ✅ done (8a6457b) | LobsterMan |
-| C. 렌더링 | TODO | YURI |
+| C. 렌더링 | ✅ done (acd3023) | — |
