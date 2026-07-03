@@ -52,6 +52,6 @@ task1-arkanoid/
 
 | Slice | Status | Who's Next |
 |-------|--------|------------|
-| A. 게임 코어 | ✅ done (f354199) | Integration |
-| B. 레벨 & 블록 | ✅ done (8a6457b) | Integration |
-| C. 렌더링 | ✅ done (acd3023) | Integration |
+| A. 게임 코어 | ✅ done + integrated (cff512c) | — |
+| B. 레벨 & 블록 | ✅ done (b353ce4) | — |
+| C. 렌더링 | ✅ done (acd3023) | — |
