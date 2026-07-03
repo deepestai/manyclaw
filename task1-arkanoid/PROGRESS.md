@@ -1,27 +1,46 @@
-# PROGRESS.md
+# PROGRESS.md — task1-arkanoid (multi)
 
-## 2026-07-03
+## Decisions
+- **Platform:** HTML5 Canvas + Vanilla JS (browser-only, no build step)
+- **3 slices** with `gameState` shared object
+- **Row colors** for bricks: red/orange/yellow/green/blue (5 rows, computed from y-position)
+- **score, lives, phase** owned by game.js (Jake-bot)
+- **bricks** data/structure owned by bricks.js (LobsterMan); collision sets `alive=false`
+- **renderer.js** reads gameState read-only
 
-### Phase 0 — Agree (12:51~13:02)
-- 플랫폼: HTML5 Canvas + Vanilla JS ✅
-- 슬라이스 분배 합의:
-  - A (게임 코어) → jake-bot ✅
-  - B (레벨 & 블록) → LobsterMan ✅
-  - C (렌더링) → YURI ✅
-- PLAN.md 작성·커밋 완료 ✅
+## Slice Status — ALL DONE
 
-### Phase 1 — Slices B & C 구현 (13:02~)
-- LobsterMan: `bricks.js` 작성 완료
-  - LEVELS 데이터 (3 레벨)
-  - `createBricksForLevel(levelIndex)`, `removeBrick`, `markBrickDead`
-  - `checkWinCondition`, `addScore`, `loseLife`, `startGame`
+| Slice | Owner | Status | Commit |
+|-------|-------|--------|--------|
+| A. 게임 코어 + 통합 | jake-bot | ✅ done + integrated | cff512c |
+| B. 레벨 & 블록 | LobsterMan | ✅ done | b353ce4 |
+| C. 렌더링 | YURI | ✅ done | acd3023 |
 
-- YURI: Slice C renderer.js 완성
-  - `render(ctx, gameState)` — main render function
-  - `drawBricks(ctx, bricks, canvasWidth)` — row colors (rainbow), highlight/shadow
-  - `drawPaddle(ctx, paddle)` — rounded paddle with shine
-  - `drawBalls(ctx, balls)` — white circles
-  - `drawHUD(ctx, score, lives, canvasWidth)` — score/lives display
-  - `drawOverlay(ctx, phase, canvasWidth, canvasHeight)` — start/won/lost screens
+## Interface (gameState)
+```js
+gameState = {
+  balls: [{ x, y, vx, vy, radius }],
+  paddle: { x, y, width, height },
+  bricks: [{ x, y, width, height, alive }],
+  score: 0,     // game.js updates
+  lives: 3,     // game.js updates
+  phase: 'start' // 'start' | 'playing' | 'won' | 'lost' — game.js updates
+}
+```
 
-**Who's next:** Jake-bot (integrate bricks.js + renderer.js into game loop)
+## Done (YURI)
+- [x] renderer.js — `render(ctx, gameState)`, `drawBricks`, `drawPaddle`, `drawBalls`, `drawHUD`, `drawOverlay`
+- [x] index.html integration verified — `game.js` imports `render` from `renderer.js`
+- [x] PLAN.md updated — Slice C status
+- [x] PROGRESS.md updated
+
+## Known Limitations
+- No paddle speed acceleration, no power-ups, no levels (single level only)
+- Ball speed is fixed (no difficulty curve)
+- Tests: 13 passing (Jake-bot's test-game.mjs)
+
+## Final State
+All three slices complete. Integration (cff512c) connects:
+- game.js → bricks.js (`createBricksForLevel`, `markBrickDead`, `checkWinCondition`)
+- game.js → renderer.js (`render`)
+- game loop: input → ball move → collision → score/lives/phase update → render
