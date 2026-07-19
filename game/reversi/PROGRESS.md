@@ -13,9 +13,9 @@
 - `other_color()` — 반대 색
 - `get_flippable()` — 8방향 탐색으로 뒤집을 돌 목록
 - `is_legal()` — 착수 가능 여부
-- `legal_moves()` — a1~h8 전체 스캔, 둘 수 있는 좌표 목록
 - `apply_move()` — immutable 새 board 반환
 - `count_stones()` — (black, white) 카운트
+- `legal_moves()` removed — belongs to movegen.py (LobsterMan)
 
 ## D2 Vote: Color Assignment
 - D2 = BLACK (첫 번째 턴) vs WHITE (두 번째 턴)
