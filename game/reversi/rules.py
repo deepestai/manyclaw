@@ -1,80 +1,86 @@
 # rules.py — B slice (YURI)
-# 리버시 게임 규칙: 착수 가능 여부 판단, 팔레트 투표
-
-from enum import IntEnum
-from typing import List, Tuple
+# S3: apply / score / winner / is_terminal
+from contract import State, BLACK, WHITE, EMPTY, PASS, IllegalMove, opponent, DIRS
 
 
-class Color(IntEnum):
-    EMPTY = 0
-    BLACK = 1  # 먼저 둘 (D2 투표 결과)
-    WHITE = 2
-
-
-def other_color(color: Color) -> Color:
-    return WHITE if color == BLACK else BLACK
-
-
-def get_flippable(
-    board: List[List[Color]],
-    row: int,
-    col: int,
-    color: Color
-) -> List[Tuple[int, int]]:
-    """
-    (row, col)에 둘 때 뒤집힐 수 있는 돌 목록을 반환.
-    8방향 탐색.
-    """
-    if board[row][col] != Color.EMPTY:
+def _get_flippable(board, row, col, player):
+    """(row,col)에 둘 때 뒤집힐 좌표 목록. 8방향 탐색."""
+    if board[row][col] != EMPTY:
         return []
-
-    n = len(board)
     flips = []
-    directions = [(-1,-1), (-1,0), (-1,1), (0,-1), (0,1), (1,-1), (1,0), (1,1)]
-
-    for dr, dc in directions:
+    for dr, dc in DIRS:
         line = []
         r, c = row + dr, col + dc
-        while 0 <= r < n and 0 <= c < n and board[r][c] == other_color(color):
+        while 0 <= r < 8 and 0 <= c < 8 and board[r][c] == opponent(player):
             line.append((r, c))
             r += dr
             c += dc
-        if len(line) > 0 and 0 <= r < n and 0 <= c < n and board[r][c] == color:
+        if line and 0 <= r < 8 and 0 <= c < 8 and board[r][c] == player:
             flips.extend(line)
-
     return flips
 
 
-def is_legal(board: List[List[Color]], row: int, col: int, color: Color) -> bool:
-    """(row, col)에 color 돌을 둘 수 있는지."""
-    return len(get_flippable(board, row, col, color)) > 0
+def apply(state, move):
+    """
+    state에 move를 적용한 새 State 반환.
+    move: (row, col) tuple, 또는 PASS (None).
+    illegal move면 IllegalMove 발생.
+    """
+    if move == PASS:
+        return State(state.board[:], opponent(state.to_move), passes=state.passes + 1)
 
+    row, col = move
+    if state.board[row][col] != EMPTY:
+        raise IllegalMove(f"{move} is not empty")
 
-def apply_move(
-    board: List[List[Color]],
-    row: int,
-    col: int,
-    color: Color
-) -> List[List[Color]]:
-    """(row, col)에 두면서 뒤집고, 새 board 반환 (immutable)."""
-    flips = get_flippable(board, row, col, color)
+    flips = _get_flippable(state.board, row, col, state.to_move)
     if not flips:
-        raise ValueError(f"Illegal move: ({row}, {col})")
+        raise IllegalMove(f"{move} flips nothing — illegal")
 
-    new_board = [row[:] for row in board]
-    new_board[row][col] = color
+    new_board = [row[:] for row in state.board]
+    new_board[row][col] = state.to_move
     for r, c in flips:
-        new_board[r][c] = color
-    return new_board
+        new_board[r][c] = state.to_move
+    return State(new_board, opponent(state.to_move), passes=0)
 
 
-def count_stones(board: List[List[Color]]) -> Tuple[int, int]:
-    """(검은돌 수, 흰돌 수) 반환."""
+def score(state):
+    """(black_count, white_count) 반환."""
     black = white = 0
-    for row in board:
+    for row in state.board:
         for cell in row:
-            if cell == Color.BLACK:
+            if cell == BLACK:
                 black += 1
-            elif cell == Color.WHITE:
+            elif cell == WHITE:
                 white += 1
     return black, white
+
+
+def winner(state):
+    """0=draw, 1=black, 2=white."""
+    b, w = score(state)
+    if b > w:
+        return BLACK
+    elif w > b:
+        return WHITE
+    else:
+        return 0
+
+
+def is_terminal(state):
+    """
+    D1-a 규칙: 연속 패스 2회 = 종료.
+    양 선수 모두 착수 불가 시 종료.
+    """
+    if state.passes >= 2:
+        return True
+    # Both players have no legal moves → terminal
+    # Check current player has no moves
+    from movegen import legal_moves
+    if legal_moves(state):
+        return False
+    # Opponent also has no moves → both cannot move
+    opp_state = State(state.board, opponent(state.to_move), passes=state.passes)
+    if legal_moves(opp_state):
+        return False
+    return True
