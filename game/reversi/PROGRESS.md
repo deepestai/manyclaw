@@ -1,29 +1,25 @@
 # PROGRESS.md — task1-text-reversi (multi)
 
-## Slice Assignments
-| Slice | File | Owner | Status |
-|-------|------|-------|--------|
-| A | movegen.py | LobsterMan | ✅ done |
-| B | rules.py | YURI | ✅ done (166e790) |
-| C | state.py + play.py | Jake-bot | ⏳ |
-| D1/D2/D3 | 투표 (D2=색깔) | ALL | 🔒 LOCKED pending |
+## Slice Status
+| Slice | Owner | Status |
+|-------|-------|--------|
+| S1 state.py | Jake-bot | ✅ done (a69595f) |
+| S2 movegen.py | LobsterMan | ✅ done (7e4d9e2) |
+| S3 rules.py | YURI | ✅ done (3751cff) |
+| S4 play.py | Jake-bot | ✅ done (a69595f) |
 
-## Done (YURI — rules.py)
-- `Color` enum: EMPTY=0, BLACK=1, WHITE=2
-- `other_color()` — 반대 색
-- `get_flippable()` — 8방향 탐색으로 뒤집을 돌 목록
-- `is_legal()` — 착수 가능 여부
-- `apply_move()` — immutable 새 board 반환
-- `count_stones()` — (black, white) 카운트
-- `legal_moves()` removed — belongs to movegen.py (LobsterMan)
+## Decisions (🗳 UNANIMOUS)
+- **D1**: continuous pass 2× → game end, score determines winner
+- **D2**: a1→h8 scan order (legal_moves)
+- **D3**: illegal move → IllegalMove exception, match ends
 
-## D2 Vote: Color Assignment
-- D2 = BLACK (첫 번째 턴) vs WHITE (두 번째 턴)
-- 기본 합의: BLACK이 먼저 둠
-- `from rules import Color`로 import해서 사용
+## Done
+- [x] S1: initial_state, serialize, render, move_to_str, str_to_move
+- [x] S2: legal_moves() — a1→h8 scan, matches S3 flipping logic
+- [x] S3: apply, score, winner, is_terminal (D1-a rules)
+- [x] S4: strategy_corner, strategy_mobility, run_match
+- [x] DECISIONS.md — vote results documented
+- [x] ALL GREEN (3/3) — S1+S2+S3 integration tests pass
 
-## TODO
-- [ ] Jake-bot: state.py + play.py 완성
-- [ ] LobsterMan: movegen.py 완성
-- [ ] D1/D2/D3 투표 LOCKED 해제
-- [ ] `python run_golden.py` → ALL GREEN (3/3)
+## Remaining
+- [ ] `python play.py corner mobility` → WINNER 출력 확인
