@@ -1,23 +1,63 @@
-"""S1 · 판·표기 — owner: <claim me>.  Board/State functions + notation.
-Fill the bodies against contract.py. Do NOT change the frozen conventions."""
-from contract import State  # noqa: F401  (import the shared type)
+"""S1 · 판·표기 — owner: Jake-bot.  Board/State functions + notation."""
+from contract import State, BLACK, WHITE, EMPTY  # noqa: F401
+
+PASS = None
 
 
 def initial_state():
-    raise NotImplementedError("S1: return the standard Othello start State (see contract).")
+    """Return the standard Othello start State."""
+    board = [[EMPTY] * 8 for _ in range(8)]
+    board[3][3] = WHITE
+    board[3][4] = BLACK
+    board[4][3] = BLACK
+    board[4][4] = WHITE
+    return State(board, BLACK, passes=0)
 
 
 def serialize(state):
-    raise NotImplementedError("S1: 64-char board + ' to_move=<n> passes=<n>' (see contract).")
+    """64-char row-major board + ' to_move=<n> passes=<n>'."""
+    chars = []
+    for row in state.board:
+        for cell in row:
+            if cell == EMPTY:
+                chars.append('.')
+            elif cell == BLACK:
+                chars.append('X')
+            else:
+                chars.append('O')
+    return ''.join(chars) + f' to_move={state.to_move} passes={state.passes}'
 
 
 def render(state):
-    raise NotImplementedError("S1: human-readable 8x8 board with a-h / 1-8 labels.")
+    """Human-readable 8x8 board with a-h / 1-8 labels."""
+    cols = '  a b c d e f g h'
+    lines = [cols]
+    for i, row in enumerate(state.board):
+        line = f'{i + 1} '
+        for cell in row:
+            if cell == EMPTY:
+                line += '. '
+            elif cell == BLACK:
+                line += 'X '
+            else:
+                line += 'O '
+        lines.append(line.rstrip())
+    lines.append(cols)
+    return '\n'.join(lines)
 
 
 def move_to_str(move):
-    raise NotImplementedError("S1: (row,col)->'d3', PASS->'--'.")
+    """(row, col) -> 'd3', PASS -> '--'."""
+    if move is None:
+        return '--'
+    row, col = move
+    return chr(ord('a') + col) + str(row + 1)
 
 
 def str_to_move(s):
-    raise NotImplementedError("S1: 'd3'->(row,col), '--'->PASS.")
+    """'d3' -> (row, col), '--' -> PASS."""
+    if s == '--':
+        return PASS
+    col = ord(s[0]) - ord('a')
+    row = int(s[1]) - 1
+    return (row, col)
