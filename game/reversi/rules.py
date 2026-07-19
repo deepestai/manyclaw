@@ -50,17 +50,6 @@ def is_legal(board: List[List[Color]], row: int, col: int, color: Color) -> bool
     return len(get_flippable(board, row, col, color)) > 0
 
 
-def legal_moves(board: List[List[Color]], color: Color) -> List[Tuple[int, int]]:
-    """color 돌이 둘 수 있는 모든 좌표 목록 (a1~h8 스캔)."""
-    n = len(board)
-    moves = []
-    for r in range(n):
-        for c in range(n):
-            if is_legal(board, r, c, color):
-                moves.append((r, c))
-    return moves
-
-
 def apply_move(
     board: List[List[Color]],
     row: int,
